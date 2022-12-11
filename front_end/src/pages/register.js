@@ -92,6 +92,7 @@ export default function Register() {
       input_photo.removeEventListener("change", on_change_input_photo);
     };
   }, [on_click_password, on_change_input_photo, alert]);
+  
   return (
     <section id="register_page" className="pt-36 dark:bg-dark pb-36">
       {alert.is_show && (
