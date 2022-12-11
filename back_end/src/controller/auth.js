@@ -38,7 +38,7 @@ auth.register = async (req, res, next) => {
         if (!email) throw new Error('Email harus diinput');
         if (!password) throw new Error('Password harus diinput');
         const [emailDb] = await sequelize.default.query(`SELECT email FROM users where email LIKE '%${email}%'`);
-        if (emailDb.length > 1) throw new Error('Email sudah digunakan');
+        if (emailDb.length > 0) throw new Error('Email sudah digunakan');
         if (password.length < 8) throw new Error('Password harus lebih dari 8 karakter');
         await sequelize.default.query(`INSERT INTO users (username, email, password, photo) values ('${username}', '${email}', '${beforeCreate(password)}', '${originalname}')`)
         res.status(200).json({ message: 'User berhasil dibuat', error: false });

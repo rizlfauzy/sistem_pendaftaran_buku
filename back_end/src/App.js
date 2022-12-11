@@ -28,5 +28,5 @@ sequelize.authenticate().then(() => {
 })
 app.use(AppRoute);
 app.listen(process.env.APP_HOST, () => {
-    console.log(`${process.env.APP_NAME} listening on port ${port}`);
+    console.log(`${process.env.APP_NAME} listening on port ${port} and running on ${process.env.APP_URL}`);
 });

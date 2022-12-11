@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt")
+
 export const beforeCreate = (password) => {
     const salt = bcrypt.genSaltSync();
     return bcrypt.hashSync(password, salt)
