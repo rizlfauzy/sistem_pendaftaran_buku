@@ -1,0 +1,241 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body.darker {
+  background-color: #dcdcdc;
+}
+body::before {
+  content: "";
+  background-image: url("../img/rak_buku_2.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 60vmax;
+  opacity: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -99;
+}
+
+.for_alert {
+  position: fixed;
+  top: 61px;
+  right: 17%;
+  left: 17%;
+  margin-bottom: 10px;
+  opacity: 1;
+  z-index: 2000;
+  list-style: none;
+  text-align: center;
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin: auto;
+  padding: 14px 0 14px 0;
+  max-width: 396px;
+  text-align: left;
+}
+.card .card_header .link_back {
+  display: inline-block;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: #00ccc9;
+  margin-right: 10px;
+}
+.card .card_header .card_greeting {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: #9cf3f0;
+  text-align: left;
+  margin-bottom: 14px;
+}
+.card .card_header .card_introduction {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  color: #949494;
+  text-align: left;
+  margin-bottom: 10px;
+}
+.card .card_header .card_logo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+.card .card_header .card_logo .img_logo {
+  width: 100%;
+  height: 100%;
+}
+.card .card_body .input_group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+.card .card_body .input_group > .form_control {
+  position: relative;
+  min-width: 0;
+  flex: 1 1 auto;
+  width: 1%;
+}
+.card .card_body .input_group .card_btn_pass {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+.card .card_body .input_group .card_btn_pass.active .bi::before {
+  content: "\f33f";
+}
+.card .card_body .form_control {
+  border: 1px solid #00b3b3;
+  padding: 15px 25px;
+  min-height: 45px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #949494;
+  border-radius: 0.75rem;
+  width: 100%;
+}
+.card .card_body .form_control:focus {
+  color: #949494;
+  background-color: #fff;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+.card .card_body .input_photo {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+.card .card_body .input_photo .label_photo {
+  position: relative;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.card .card_body .input_photo .label_photo .img_preview {
+  width: 100px;
+  height: 100px;
+  border: 3px solid rgb(200, 200, 200);
+  object-fit: cover;
+}
+.card .card_body .input_photo .label_photo .cam_logo {
+  background-color: #fff;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+}
+.card .card_body .btn {
+  padding: 10px 0;
+  border-radius: 8px;
+}
+.card .card_body .btn.btn_primary {
+  background-color: #00ccc9;
+  border-color: #00ccc9;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #eaeaea;
+}
+.card .card_body .btn.btn_primary:hover {
+  background-color: #00b3b3;
+  border-color: #00b3b3;
+}
+.card .card_body .btn.btn_secondary {
+  background-color: #949494;
+  border-color: #949494;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #eaeaea;
+}
+.card .card_body .btn.btn_secondary:hover {
+  background-color: #009999;
+  border-color: #009999;
+}
+.card .card_body .btn.link_btn {
+  @apply px-5 text-center;
+}
+.card .card_body .strip_text {
+  width: auto;
+  margin: 10px 8px;
+  overflow: hidden;
+  text-align: center;
+  white-space: nowrap;
+  color: rgb(124, 124, 124);
+}
+.card .card_body .strip_text > span {
+  position: relative;
+  display: inline-block;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #949494;
+}
+.card .card_body .strip_text > span::before {
+  content: "";
+  height: 1px;
+  position: absolute;
+  top: 50%;
+  width: 9999px;
+  background: #d7dade;
+  margin-right: 15px;
+  right: 100%;
+}
+.card .card_body .strip_text > span::after {
+  content: "";
+  height: 1px;
+  position: absolute;
+  top: 50%;
+  width: 9999px;
+  background: #d7dade;
+  left: 100%;
+  margin-left: 15px;
+}
+.card .card_body .is_account {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #949494;
+}
+.card .card_body .is_account .link_to_login {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #00ccc9;
+}
+
+/*# sourceMappingURL=style.css.map */

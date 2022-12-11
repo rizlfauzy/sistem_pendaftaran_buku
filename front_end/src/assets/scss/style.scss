@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// import fonts
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+// variables
+$primary_bg_color: #00ccc9;
+$primary_text_color: #eaeaea;
+$secondary_bg_color: #00b3b3;
+$secondary_text_color: #9cf3f0;
+$tertiary_bg_color: #009999;
+$tertiary_text_color: #949494;
+$border_radius: 5px;
+$font_very_small: 0.8rem;
+$font_small: 1rem;
+$font_medium: 1.2rem;
+$font_large: 1.4rem;
+$font_very_large: 1.6rem;
+$font_very_very_large: 2rem;
+
+// mixins
+@mixin flex($direction, $justify, $align) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+@mixin formatText($weight, $size, $lineHeight, $color) {
+  font-style: normal;
+  font-weight: $weight;
+  font-size: $size;
+  line-height: $lineHeight;
+  color: $color;
+}
+
+// global styles
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  &.darker {
+    background-color: #dcdcdc;
+  }
+  &::before {
+    content: "";
+    background-image: url("../img/rak_buku_2.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 60vmax;
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -99;
+  }
+}
+
+// alert styles
+.for_alert {
+  position: fixed;
+  top: 61px;
+  right: 17%;
+  left: 17%;
+  margin-bottom: 10px;
+  opacity: 1;
+  z-index: 2000;
+  list-style: none;
+  text-align: center;
+}
+
+// card styles
+.card {
+  border-radius: $border_radius + 3px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  margin: auto;
+  padding: 14px 0 14px 0;
+  max-width: 396px;
+  text-align: left;
+  .card_header {
+    .link_back {
+      display: inline-block;
+      @include formatText(600, $font_medium, 1.2, $primary_bg_color);
+      margin-right: 10px;
+    }
+    .card_greeting {
+      @include formatText(600, $font_medium, 1.2, $secondary_text_color);
+      text-align: left;
+      margin-bottom: 14px;
+    }
+    .card_introduction {
+      @include formatText(400, $font_very_small, 1.2, $tertiary_text_color);
+      text-align: left;
+      margin-bottom: 10px;
+    }
+    .card_logo {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      .img_logo {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .card_body {
+    .input_group {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      width: 100%;
+      & > .form_control {
+        position: relative;
+        min-width: 0;
+        flex: 1 1 auto;
+        width: 1%;
+      }
+      & .card_btn_pass {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+      }
+      .card_btn_pass {
+        &.active {
+          .bi::before {
+            content: "\F33F";
+          }
+        }
+      }
+    }
+    .form_control {
+      border: 1px solid $secondary_bg_color;
+      padding: 15px 25px;
+      min-height: 45px;
+      @include formatText(500, $font_very_small, 1.5, $tertiary_text_color);
+      border-radius: 0.75rem;
+      width: 100%;
+      &:focus {
+        color: $tertiary_text_color;
+        background-color: #fff;
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+      }
+    }
+    .input_photo {
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      .label_photo {
+        position: relative;
+        border-radius: 50%;
+        cursor: pointer;
+        .img_preview {
+          width: 100px;
+          height: 100px;
+          border: 3px solid rgb(200, 200, 200);
+          object-fit: cover;
+        }
+        .cam_logo {
+          background-color: #fff;
+          border: none;
+          width: 40px;
+          height: 40px;
+          display: inline-flex;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          border-radius: 50%;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+    .btn {
+      padding: 10px 0;
+      border-radius: $border_radius + 3px;
+      &.btn_primary {
+        background-color: $primary_bg_color;
+        border-color: $primary_bg_color;
+        @include formatText(600, $font_medium, 1.5, $primary_text_color);
+        &:hover {
+          background-color: $secondary_bg_color;
+          border-color: $secondary_bg_color;
+        }
+      }
+      &.btn_secondary {
+        background-color: $tertiary_text_color;
+        border-color: $tertiary_text_color;
+        @include formatText(600, $font_medium, 1.5, $primary_text_color);
+        &:hover {
+          background-color: $tertiary_bg_color;
+          border-color: $tertiary_bg_color;
+        }
+      }
+      &.link_btn {
+        @apply px-5 text-center;
+      }
+    }
+    .strip_text {
+      width: auto;
+      margin: 10px 8px;
+      overflow: hidden;
+      text-align: center;
+      white-space: nowrap;
+      color: rgb(124, 124, 124);
+      & > span {
+        position: relative;
+        display: inline-block;
+        @include formatText(400, $font_very_small, 1.5, $tertiary_text_color);
+        &::before {
+          content: "";
+          height: 1px;
+          position: absolute;
+          top: 50%;
+          width: 9999px;
+          background: #d7dade;
+          margin-right: 15px;
+          right: 100%;
+        }
+        &::after {
+          content: "";
+          height: 1px;
+          position: absolute;
+          top: 50%;
+          width: 9999px;
+          background: #d7dade;
+          left: 100%;
+          margin-left: 15px;
+        }
+      }
+    }
+    .is_account{
+      @include formatText(400, $font_very_small, 1.5, $tertiary_text_color);
+      .link_to_login{
+        @include formatText(600, $font_very_small, 1.5, $primary_bg_color);
+      }
+    }
+  }
+}
