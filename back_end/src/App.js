@@ -15,7 +15,7 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'secret',
+    secret: process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true, maxAge: 1000 * 60 * 30 }
