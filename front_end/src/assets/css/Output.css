@@ -862,6 +862,8 @@ body::before {
   margin-bottom: 1rem;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .card .card_body .input_photo .label_photo {
@@ -889,47 +891,6 @@ body::before {
   border-radius: 50%;
   justify-content: center;
   align-items: center;
-}
-
-.card .card_body .btn {
-  padding: 10px 0;
-  border-radius: 8px;
-}
-
-.card .card_body .btn.btn_primary {
-  background-color: #00ccc9;
-  border-color: #00ccc9;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 1.2rem;
-  line-height: 1.5;
-  color: #eaeaea;
-}
-
-.card .card_body .btn.btn_primary:hover {
-  background-color: #00b3b3;
-  border-color: #00b3b3;
-}
-
-.card .card_body .btn.btn_secondary {
-  background-color: #949494;
-  border-color: #949494;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 1.2rem;
-  line-height: 1.5;
-  color: #eaeaea;
-}
-
-.card .card_body .btn.btn_secondary:hover {
-  background-color: #009999;
-  border-color: #009999;
-}
-
-.card .card_body .btn.link_btn{
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  text-align: center;
 }
 
 .card .card_body .strip_text {
@@ -987,6 +948,65 @@ body::before {
   font-size: 0.8rem;
   line-height: 1.5;
   color: #00ccc9;
+}
+
+.btn {
+  padding: 10px 0;
+  border-radius: 8px;
+}
+
+.btn.btn_primary {
+  background-color: #00ccc9;
+  border-color: #00ccc9;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #eaeaea;
+}
+
+.btn.btn_primary:hover {
+  background-color: #00b3b3;
+  border-color: #00b3b3;
+}
+
+.btn.btn_secondary {
+  background-color: #949494;
+  border-color: #949494;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #eaeaea;
+}
+
+.btn.btn_secondary:hover {
+  background-color: #009999;
+  border-color: #009999;
+}
+
+.btn.link_btn{
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  text-align: center;
+}
+
+.btn.btn_back_to_default_img {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #eaeaea;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  text-align: center;
+  background-color: #949494;
+  border-color: #949494;
+}
+
+.btn.btn_back_to_default_img:hover {
+  background-color: #009999;
+  border-color: #009999;
 }
 
 .hover\:no-underline:hover{

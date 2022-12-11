@@ -154,6 +154,8 @@ body {
       margin-bottom: 1rem;
       display: flex;
       justify-content: center;
+      align-items: center;
+      flex-direction: column;
       .label_photo {
         position: relative;
         border-radius: 50%;
@@ -177,31 +179,6 @@ body {
           justify-content: center;
           align-items: center;
         }
-      }
-    }
-    .btn {
-      padding: 10px 0;
-      border-radius: $border_radius + 3px;
-      &.btn_primary {
-        background-color: $primary_bg_color;
-        border-color: $primary_bg_color;
-        @include formatText(600, $font_medium, 1.5, $primary_text_color);
-        &:hover {
-          background-color: $secondary_bg_color;
-          border-color: $secondary_bg_color;
-        }
-      }
-      &.btn_secondary {
-        background-color: $tertiary_text_color;
-        border-color: $tertiary_text_color;
-        @include formatText(600, $font_medium, 1.5, $primary_text_color);
-        &:hover {
-          background-color: $tertiary_bg_color;
-          border-color: $tertiary_bg_color;
-        }
-      }
-      &.link_btn {
-        @apply px-5 text-center;
       }
     }
     .strip_text {
@@ -237,11 +214,47 @@ body {
         }
       }
     }
-    .is_account{
+    .is_account {
       @include formatText(400, $font_very_small, 1.5, $tertiary_text_color);
-      .link_to_login{
+      .link_to_login {
         @include formatText(600, $font_very_small, 1.5, $primary_bg_color);
       }
+    }
+  }
+}
+// btn styles
+.btn {
+  padding: 10px 0;
+  border-radius: $border_radius + 3px;
+  &.btn_primary {
+    background-color: $primary_bg_color;
+    border-color: $primary_bg_color;
+    @include formatText(600, $font_medium, 1.5, $primary_text_color);
+    &:hover {
+      background-color: $secondary_bg_color;
+      border-color: $secondary_bg_color;
+    }
+  }
+  &.btn_secondary {
+    background-color: $tertiary_text_color;
+    border-color: $tertiary_text_color;
+    @include formatText(600, $font_medium, 1.5, $primary_text_color);
+    &:hover {
+      background-color: $tertiary_bg_color;
+      border-color: $tertiary_bg_color;
+    }
+  }
+  &.link_btn {
+    @apply px-5 text-center;
+  }
+  &.btn_back_to_default_img{
+    @include formatText(300, $font_very_small, 1.5, $primary_text_color);
+    @apply px-5 text-center;
+    background-color: $tertiary_text_color;
+    border-color: $tertiary_text_color;
+    &:hover {
+      background-color: $tertiary_bg_color;
+      border-color: $tertiary_bg_color;
     }
   }
 }
