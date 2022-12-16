@@ -1,8 +1,10 @@
-const path = require('path');
 import fs from 'fs';
 import { beforeCreate, validatePassword } from './user';
-var jwt = require('jsonwebtoken');
+import utils from '../utils/utils';
+
+const jwt = require('jsonwebtoken');
 const sequelize = require('../database');
+
 var auth = {};
 
 auth.generateToken = (req, res) => {
@@ -33,16 +35,12 @@ auth.login = async (req, res, next) => {
 
 }
 
-const isFormat = (originalName, ...ext) => {
-    return ext.some((format) => path.extname(originalName).toLowerCase().includes(format));
-}
-
 auth.register = async (req, res, next) => {
     const { username, email, password } = req.body;
     try {
         if (!req.file) throw new Error('Gagal upload photo !');
         const { path, originalname } = req.file;
-        if (!isFormat(originalname, 'jpg', 'png', 'jpeg')) throw new Error('Format file tidak sesuai !');
+        if (utils.isFormat(originalname, 'jpg', 'png', 'jpeg')) throw new Error('Format file tidak sesuai !');
         fs.renameSync(path, `public/img/${originalname}`);
         if (!username) throw new Error('Username harus diinput');
         if (!email) throw new Error('Email harus diinput');
@@ -56,10 +54,6 @@ auth.register = async (req, res, next) => {
     } catch (error) {
         res.status(500).json({ message: error.message, error: true });
     }
-
-    // password minimal 8
-    // check to database if email is exist
-    // format email
 }
 
 export default auth;

@@ -2,16 +2,11 @@ import express from "express";
 import AppRoute from "./routes";
 import sequelize from "./database";
 
-const dotenv = require('dotenv');
+require('dotenv').config();
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
-const port = 3000;
-dotenv.config();
 
-// route
-
-// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
@@ -27,6 +22,6 @@ sequelize.authenticate().then(() => {
     console.error(e);
 })
 app.use(AppRoute);
-app.listen(process.env.APP_HOST, () => {
-    console.log(`${process.env.APP_NAME} listening on port ${port} and running on ${process.env.APP_URL}`);
+app.listen(process.env.APP_PORT, () => {
+    console.log(`${process.env.APP_NAME} listening on port ${process.env.APP_PORT} and running on ${process.env.APP_URL}`);
 });

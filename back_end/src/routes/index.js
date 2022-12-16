@@ -7,5 +7,5 @@ export default Router()
     .use('/auth', AuthRoute)
     .use('/user', UserRoute)
     .use((req, res, next) => {
-        res.status(404).json({ message: 'Not found' });
+        res.status(404).json({ message: 'Not found', error: true });
     })
