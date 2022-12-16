@@ -6,3 +6,4 @@ const upload = multer({ dest: './public' });
 export default Router()
     .post('/login', controller.auth.login, controller.auth.generateToken)
     .post('/register', upload.single('photo'), controller.auth.register)
+    .get('/logout', controller.auth.logout)

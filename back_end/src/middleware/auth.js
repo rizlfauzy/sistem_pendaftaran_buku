@@ -1,11 +1,16 @@
 import jwt from 'jsonwebtoken';
+import sequelize from '../database';
 
-const validateToken = (req, res, next) => {
+const validateToken =async (req, res, next) => {
     try {
         let authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
-        if (!token) return res.status(401);
-        jwt.verify(token, process.env.JWT_SECRET_KEY);
+        if (!token) return res.status(401).json({ message: 'Token not found', error: true });
+        const [result_select_from_login_session] = await sequelize.query(`select * from login_session where jwt_token = '${token}'`);
+        if (result_select_from_login_session.length < 1) return res.status(403).json({ message: 'Token not found', error: true })
+        if (result_select_from_login_session[0].is_valid == 0) return res.status(403).json({ message: 'Token expired', error: true })
+        const decoded_data = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        req.user = decoded_data;
         next();
     } catch (error) {
         // throw new Error(error.message);

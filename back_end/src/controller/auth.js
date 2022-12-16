@@ -7,15 +7,17 @@ const sequelize = require('../database');
 
 var auth = {};
 
-auth.generateToken = (req, res) => {
+auth.generateToken =async (req, res) => {
     try {
         let jwtSecretKey = process.env.JWT_SECRET_KEY;
+        let session = req.session;
         let data = {
             email: req.body.email
         }
         const token = jwt.sign(data, jwtSecretKey, { expiresIn: '30m' });
-        let session = req.session;
         session.token = token;
+        const [result_select_user_id] = await sequelize.default.query(`select id from users where email LIKE '%${req.body.email}%'`)
+        await sequelize.default.query(`insert into login_session (jwt_token,is_valid,user_id) values ('${token}',1,'${result_select_user_id[0].id}')`)
         res.status(200).json({ message: 'Token berhasil digenerate', error: false, token });
     } catch (error) {
         res.status(500).json({ message: error.message, error: true });
@@ -53,6 +55,23 @@ auth.register = async (req, res, next) => {
         res.status(200).json({ message: 'User berhasil dibuat', error: false });
     } catch (error) {
         res.status(500).json({ message: error.message, error: true });
+    }
+}
+
+auth.logout = async (req, res) => {
+    try {
+        let sess = req.session;
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+        if (!token) return res.status(401);
+        const [result_select_from_login_session] = await sequelize.default.query(`select * from login_session where jwt_token = '${token}'`);
+        if (result_select_from_login_session.length < 1) return res.status(403).json({ message: 'Token not found', error: true })
+        if (result_select_from_login_session[0].is_valid == 0) return res.status(403).json({ message: 'Token expired', error: true })
+        await sequelize.default.query(`update login_session set is_valid = 0 where jwt_token = '${token}'`)
+        sess.destroy();
+        return res.status(200).json({ message: 'Logout berhasil', error: false })
+    } catch (error) {
+        return res.status(500).json({ message: error.message, error: true })
     }
 }
 
