@@ -2,23 +2,26 @@ import express from "express";
 import AppRoute from "./routes";
 import sequelize from "./database";
 
-const dotenv = require('dotenv');
-const session = require('express-session');
-const cors = require('cors');
+require('dotenv').config();
+import session from "express-session";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 const app = express();
-const port = 3000;
-dotenv.config();
+const http = require('http').createServer(app);
+const port = 5000;
 
 // route
 
 // middleware
+app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser("secret"));
 app.use(session({
-    secret: process.env.SESSION_SECRET_KEY,
+    cookie: { maxAge: 1000 * 60 * 30 },
+    secret: "secret",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true, maxAge: 1000 * 60 * 30 }
 }));
 app.use(cors())
 sequelize.authenticate().then(() => {
@@ -27,6 +30,6 @@ sequelize.authenticate().then(() => {
     console.error(e);
 })
 app.use(AppRoute);
-app.listen(process.env.APP_HOST, () => {
+http.listen(process.env.APP_HOST, () => {
     console.log(`${process.env.APP_NAME} listening on port ${port} and running on ${process.env.APP_URL}`);
 });
