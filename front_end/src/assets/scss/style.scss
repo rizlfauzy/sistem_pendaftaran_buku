@@ -13,6 +13,7 @@ $secondary_text_color: #9cf3f0;
 $tertiary_bg_color: #009999;
 $tertiary_text_color: #949494;
 $border_radius: 5px;
+$font_very_very_small: 0.6rem;
 $font_very_small: 0.8rem;
 $font_small: 1rem;
 $font_medium: 1.2rem;
@@ -45,6 +46,7 @@ body {
     background-color: #dcdcdc;
   }
   &::before {
+    @apply dark:bg-slate-800;
     content: "";
     background-image: url("../img/rak_buku_2.png");
     background-position: center;
@@ -60,6 +62,26 @@ body {
   }
 }
 
+// scrollbar
+body {
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $secondary_bg_color;
+    border-radius: 10px;
+  }
+  @media screen and (max-width: 768px) {
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+  }
+}
+
 // alert styles
 .for_alert {
   position: fixed;
@@ -68,16 +90,21 @@ body {
   left: 17%;
   margin-bottom: 10px;
   opacity: 1;
-  z-index: 2000;
+  z-index: 99999;
   list-style: none;
   text-align: center;
 }
 
 // card styles
+div.full_card {
+  width: 100%;
+  max-width: 1100px;
+}
 .card {
   border-radius: $border_radius + 3px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 14px 0 14px 0;
   max-width: 396px;
   text-align: left;
@@ -88,7 +115,7 @@ body {
       margin-right: 10px;
     }
     .card_greeting {
-      @include formatText(600, $font_medium, 1.2, $secondary_text_color);
+      @include formatText(600, $font_medium, 1.2, $primary_bg_color);
       text-align: left;
       margin-bottom: 14px;
     }
@@ -108,48 +135,6 @@ body {
     }
   }
   .card_body {
-    .input_group {
-      position: relative;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: stretch;
-      width: 100%;
-      & > .form_control {
-        position: relative;
-        min-width: 0;
-        flex: 1 1 auto;
-        width: 1%;
-      }
-      & .card_btn_pass {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 2;
-      }
-      .card_btn_pass {
-        &.active {
-          .bi::before {
-            content: "\F33F";
-          }
-        }
-      }
-    }
-    .form_control {
-      border: 1px solid $secondary_bg_color;
-      padding: 15px 25px;
-      min-height: 45px;
-      @include formatText(500, $font_very_small, 1.5, $tertiary_text_color);
-      border-radius: 0.75rem;
-      width: 100%;
-      &:focus {
-        color: $tertiary_text_color;
-        background-color: #fff;
-        border-color: #86b7fe;
-        outline: 0;
-        box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
-      }
-    }
     .input_photo {
       margin-bottom: 1rem;
       display: flex;
@@ -181,7 +166,17 @@ body {
         }
       }
     }
-    .strip_text {
+    .is_account {
+      @include formatText(400, $font_very_small, 1.5, $tertiary_text_color);
+      .link_to_login {
+        @include formatText(600, $font_very_small, 1.5, $primary_bg_color);
+      }
+    }
+  }
+}
+
+// strip text styles
+.strip_text {
       width: auto;
       margin: 10px 8px;
       overflow: hidden;
@@ -214,18 +209,69 @@ body {
         }
       }
     }
-    .is_account {
-      @include formatText(400, $font_very_small, 1.5, $tertiary_text_color);
-      .link_to_login {
-        @include formatText(600, $font_very_small, 1.5, $primary_bg_color);
+
+// form styles
+.input_group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+  & > .form_control {
+    position: relative;
+    min-width: 0;
+    flex: 1 1 auto;
+    width: 1%;
+  }
+  & .card_btn_pass {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+  & .place_label {
+    position: absolute;
+    top: 50%;
+    left: 25px;
+    transform: translateY(-50%);
+    z-index: 2;
+    @include formatText(500, $font_very_small, 1.5, $tertiary_text_color);
+  }
+  & > :is(.form_control:not(:placeholder-shown), .form_control:focus) + .place_label {
+    top: 20%;
+    @include formatText(400, $font_very_very_small, 1.5, $tertiary_text_color);
+  }
+  .card_btn_pass {
+    &.active {
+      .bi::before {
+        content: "\F33F";
       }
     }
   }
 }
+.form_control {
+  border: 1px solid $secondary_bg_color;
+  padding: 15px 25px;
+  min-height: 45px;
+  @include formatText(500, $font_very_small, 1.5, $tertiary_text_color);
+  border-radius: 0.75rem;
+  width: 100%;
+  &:focus {
+    color: $tertiary_text_color;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+    @apply dark:border-blue-200 dark:shadow-slate-400 dark:shadow-[0_0_0_0.25rem];
+  }
+}
+
 // btn styles
 .btn {
   padding: 10px 0;
   border-radius: $border_radius + 3px;
+  transition: all 0.3s ease;
   &.btn_primary {
     background-color: $primary_bg_color;
     border-color: $primary_bg_color;
@@ -244,10 +290,22 @@ body {
       border-color: $tertiary_bg_color;
     }
   }
+  &.btn_warning {
+    @apply bg-yellow-500 hover:bg-yellow-600;
+    @include formatText(600, $font_medium, 1.5, $primary_text_color);
+  }
+  &.btn_reset {
+    @apply bg-red-500 hover:bg-red-600;
+    @include formatText(600, $font_medium, 1.5, $primary_text_color);
+  }
+  &.btn_cancel {
+    @apply bg-gray-500 hover:bg-gray-600;
+    @include formatText(600, $font_medium, 1.5, $primary_text_color);
+  }
   &.link_btn {
     @apply px-5 text-center;
   }
-  &.btn_back_to_default_img{
+  &.btn_back_to_default_img {
     @include formatText(300, $font_very_small, 1.5, $primary_text_color);
     @apply px-5 text-center;
     background-color: $tertiary_text_color;
@@ -255,6 +313,132 @@ body {
     &:hover {
       background-color: $tertiary_bg_color;
       border-color: $tertiary_bg_color;
+    }
+  }
+}
+
+// navbar styles
+.navbar-fixed {
+  @apply fixed z-[9999] bg-white bg-opacity-70 backdrop-blur-sm dark:bg-dark dark:bg-opacity-50;
+  box-shadow: inset 0 -1px 0 0 rgba($color: #000000, $alpha: 0.2);
+}
+#nav-menu {
+  .nav-list {
+    .active {
+      color: $secondary_bg_color;
+    }
+    .img_profil {
+      @apply w-10 h-10 rounded-full;
+      border: 3px solid $secondary_bg_color;
+    }
+  }
+}
+.hamburger-line {
+  @apply w-[30px] h-[2px] my-2 block bg-dark transition duration-300 ease-in-out dark:bg-white;
+}
+.social-media {
+  @apply w-9 h-9 mr-3 rounded-full flex justify-center items-center border border-slate-300 text-slate-300 hover:border-primary hover:bg-primary hover:text-white;
+}
+.hamburger-active {
+  span:nth-child(1) {
+    @apply rotate-45;
+  }
+  span:nth-child(2) {
+    @apply scale-0;
+  }
+  span:nth-child(3) {
+    @apply -rotate-45;
+  }
+}
+:is(#dark-toggle, #is_read, #is_read_modal):checked ~ label {
+  .toggle-circle {
+    @apply translate-x-3;
+  }
+}
+
+// tables styles
+.table_container {
+  max-height: 45vh;
+  overflow-y: auto;
+  table {
+    border-radius: 10px;
+    overflow: hidden;
+
+    thead {
+      tr th.th_thead {
+        @apply text-xs lg:text-sm font-medium text-white lg:px-6 lg:py-4 px-3 py-2 text-left;
+      }
+    }
+    tbody {
+      tr td.td_tbody {
+        @apply text-xs lg:text-sm font-medium text-light-green lg:px-6 lg:py-4 px-3 py-2 text-left;
+      }
+    }
+  }
+}
+
+// modal styles
+.modal_box {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(94, 94, 94, 0.5);
+  padding-top: 50px;
+  .modal_close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    @include formatText(bold, 40px, 1.5, $primary_text_color);
+    &:hover,
+    &:focus {
+      color: #f44336;
+      cursor: pointer;
+    }
+  }
+  .modal_content {
+    @apply bg-white dark:bg-slate-700;
+    border-radius: 10px;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    max-width: 400px; /* Could be more or less, depending on screen size */
+    border: 0 solid $secondary_bg_color;
+    .modal_container {
+      padding: 16px;
+      text-align: center;
+      .modal_header {
+        @include formatText(bolder, $font_small, 1.5, $secondary_bg_color);
+        @media screen and (max-width: 400px) {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+// footer styles
+.footer {
+  @apply bg-gray-100 dark:bg-slate-700 lg:px-24 px-12 py-10;
+  min-height: 30vh;
+  .footer_content {
+    @apply lg:mx-auto lg:w-1/2 w-full lg:mb-0 mb-12;
+    .footer_title {
+      @include formatText(600, $font_medium, 1.5, rgb(51 65 85));
+      @apply dark:text-white;
+      margin-bottom: 20px;
+    }
+    .footer_body {
+      @include formatText(400, $font_small, 1.5, rgb(51 65 85));
+      @apply dark:text-white;
+      ul li {
+        display: flex;
+        &:not(:last-child) {
+          margin-bottom: 16px;
+        }
+      }
     }
   }
 }

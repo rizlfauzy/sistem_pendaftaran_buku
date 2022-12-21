@@ -1,16 +1,15 @@
-// env
 const { REACT_APP_URL_BACKEND: URL_BACKEND } = process.env;
 
-export default function fetch_data({ url, method, data, host = URL_BACKEND }) {
+export default function get_data({ url, host = URL_BACKEND,token }) {
   return fetch(`${host}${url}`, {
-    method, mode: "cors",
+    method: "GET", mode: "cors",
     headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+      "authorization": `Bearer ${token}`,
+    }
   }).then(async (res) => {
     const response_json = await res.json();
+     if (res.status === 403) return window.location.reload();
     if (res.ok) return response_json;
     return response_json;
-  });
+  })
 }
