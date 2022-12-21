@@ -46,7 +46,7 @@ book.insertBook = async (req, res) => {
     if (!is_completed) return res.status(400).json({ message: "Status tidak boleh kosong", error: true });
     if (!enc_user_id) return res.status(400).json({ message: "User ID tidak boleh kosong", error: true });
     const user_id = decrypt(enc_user_id.replace(/ /g, "+"));
-    const [result_select_book] = await sequelize.query(`select * from books where title = '${title}' and author = '${author}'`);
+    const [result_select_book] = await sequelize.query(`select * from books where title = '${title}' and author = '${author}' and user_id = '${user_id}'`);
     if (result_select_book.length > 0) return res.status(400).json({ message: "Buku sudah ada", error: true });
     const [result_insert_book] = await sequelize.query(`insert into books (title,author,year,is_completed,user_id) values ('${title}','${author}','${year}','${is_completed}','${user_id}')`);
     return res.status(200).json({ message: "Buku berhasil ditambahkan", error: false, data: result_insert_book });
