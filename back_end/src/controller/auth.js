@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { beforeCreate, validatePassword } from './user';
+import { beforeCreate, validatePassword } from '../utils/encrypt';
 import utils from '../utils/utils';
 
 const jwt = require('jsonwebtoken');

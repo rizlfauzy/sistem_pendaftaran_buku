@@ -2,8 +2,6 @@ import sequelize from "../database";
 import { encrypt } from "../utils/encrypt_crypto";
 const {APP_URL} = process.env;
 
-const sequelize = require("../database");
-
 var user = {};
 
 user.profil = async (req, res) => {
