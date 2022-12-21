@@ -12,5 +12,5 @@ export default Router()
     .use(`${PREFIX_ROUTE}user`, UserRoute)
     .use(`${PREFIX_ROUTE}book`, BookRoute)
     .use((req, res) => {
-        res.status(404).json({ message: 'Not found',error:true });
+        res.status(404).json({ message: 'Not found', error: true });
     })
