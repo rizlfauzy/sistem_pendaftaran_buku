@@ -1,5 +1,7 @@
 import sequelize from "../database";
-import { encrypt,decrypt } from "../utils/encrypt_crypto";
+import { encrypt, decrypt } from "../utils/encrypt_crypto";
+// const axios = require("axios-esm");
+import axios from "axios";
 
 const book = {};
 
@@ -112,6 +114,40 @@ book.deleteBook = async (req, res) => {
     return res.status(200).json({ message: "Buku berhasil dihapus", error: false, data: result_delete_book });
   } catch (error) {
     return res.status(500).json({ message: error.message, error: true });
+  }
+}
+
+book.getBookByGoogle =async (req, res) => {
+  try {
+    const { title, author } = req.query;
+    // if (!title) return res.status(400).json({ message: "Judul tidak boleh kosong", error: true });
+    // if (!author) return res.status(400).json({ message: "Penulis tidak boleh kosong", error: true });
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=AIzaSyD9fr8Fuu4fyCnGOqr_uLxbsSUw2FxXzNA`;
+    const {data} = await axios({
+      url,
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const { items } = data;
+    const arr_items = items.map(item => {
+      const { id, volumeInfo } = item;
+      const { title, authors, publishedDate, publisher, description, imageLinks } = volumeInfo;
+      const obj_item = {
+        id,
+        title,
+        authors,
+        publisher,
+        publishedDate,
+        description,
+        imageLinks
+      }
+      return obj_item;
+     })
+    return res.status(200).json({ message: "Buku berhasil didapatkan", error: false, data: arr_items });
+  } catch (e) {
+    return res.status(500).json({ message: e.message, error: true });
   }
 }
 
