@@ -119,9 +119,9 @@ book.deleteBook = async (req, res) => {
 
 book.getBookByGoogle =async (req, res) => {
   try {
-    const { title, author } = req.query;
-    // if (!title) return res.status(400).json({ message: "Judul tidak boleh kosong", error: true });
-    // if (!author) return res.status(400).json({ message: "Penulis tidak boleh kosong", error: true });
+    const { q: title, author } = req.query;
+    if (!title) return res.status(400).json({ message: "Judul tidak boleh kosong", error: true });
+    if (!author) return res.status(400).json({ message: "Penulis tidak boleh kosong", error: true });
     const url = `https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=AIzaSyD9fr8Fuu4fyCnGOqr_uLxbsSUw2FxXzNA`;
     const {data} = await axios({
       url,

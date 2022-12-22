@@ -10,4 +10,4 @@ export default Router()
   .put('/', validateToken, controller.book.updateBookIsRead)
   .put("/id", validateToken, controller.book.updateBook)
   .delete("/", validateToken, controller.book.deleteBook)
-  .get("/google", controller.book.getBookByGoogle);
+  .get("/google", validateToken, controller.book.getBookByGoogle);
