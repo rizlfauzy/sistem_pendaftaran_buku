@@ -120,7 +120,7 @@ book.deleteBook = async (req, res) => {
 book.getBookByGoogle =async (req, res) => {
   try {
     const { q: title, author } = req.query;
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=AIzaSyD9fr8Fuu4fyCnGOqr_uLxbsSUw2FxXzNA`;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=${process.env.GOOGLE_SECRET_KEY}`;
     const {data} = await axios({
       url,
       method: "GET",
