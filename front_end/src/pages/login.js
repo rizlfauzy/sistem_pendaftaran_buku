@@ -1,9 +1,12 @@
-import React, { useRef, useLayoutEffect, useCallback } from "react";
+import React, { useRef, useLayoutEffect, useEffect, useCallback } from "react";
+import gsap from "gsap";
+import TextPlugin from "gsap/TextPlugin";
+
 import Title from "../layouts/title";
+import Alert from "../layouts/alert";
+
 import { Link, useLocation, Navigate } from "react-router-dom";
 import { isEmail } from "validator";
-
-import Alert from "../layouts/alert";
 
 import useAsync from "../helpers/hooks/useAsync";
 import useAlert from "../helpers/hooks/useAlert";
@@ -18,6 +21,10 @@ export default function Login() {
   const ref_password = useRef(null);
   const ref_card_btn_pass = useRef(null);
   const ref_form_login = useRef(null);
+  const ref_card_login = useRef(null);
+
+  const text_greeting = useRef("Selamat Datang");
+  const text_introduction = useRef("Masuk atau daftar untuk menikmati fitur aplikasi rak buku");
 
   const { run } = useAsync();
   const { session, set_session_data } = useSession();
@@ -47,15 +54,16 @@ export default function Login() {
       try {
         const form_login = ref_form_login.current;
         const data = new FormData(form_login);
-        const { email, password } = Object.fromEntries(data.entries());
-        if (!email) throw new Error("Email tidak boleh kosong");
-        if (!isEmail(email)) throw new Error("Email tidak valid");
+        const { login_user, password } = Object.fromEntries(data);
+        if (!login_user) throw new Error("Username / Email tidak boleh kosong");
+        if (login_user.includes("@") && !isEmail(login_user)) throw new Error("Email tidak valid");
         if (!password) throw new Error("Password tidak boleh kosong");
         if (password.length < 8) throw new Error("Password minimal 8 karakter");
-        const { error: error_login, message: message_login, token: token_login } = await run(fetch_data({ url: "/auth/login", method: "POST", data: { email, password } }));
+        const { error: error_login, message: message_login, token: token_login } = await run(fetch_data({ url: "/auth/login", method: "POST", data: { login_user, password } }));
         if (error_login) throw new Error(message_login);
         set_session_data(token_login);
       } catch (e) {
+        if(e.message.toLowerCase().includes("failed to fetch")) e.message = "koneksi gagal, sepertinya Anda sedang offline !!!"
         set_alert({
           type: "error",
           message: e.message,
@@ -64,6 +72,47 @@ export default function Login() {
     },
     [set_alert, ref_form_login, run, set_session_data]
   );
+
+  useEffect(() => {
+    const card_login = ref_card_login.current;
+    gsap.registerPlugin(TextPlugin);
+    gsap.fromTo(
+      card_login,
+      {
+        opacity: 0,
+        y: -100,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 2,
+      }
+    );
+    gsap.fromTo(
+      ".card_greeting",
+      {
+        delay: 1,
+        text: "",
+        ease: "back",
+      },
+      {
+        duration: 2,
+        text: text_greeting.current,
+      }
+    );
+    gsap.fromTo(
+      ".card_introduction",
+      {
+        delay: 2,
+        text: "",
+        ease: "back",
+      },
+      {
+        duration: 5,
+        text: text_introduction.current,
+      }
+    );
+  }, []);
 
   useLayoutEffect(() => {
     const card_btn_pass = ref_card_btn_pass.current;
@@ -87,7 +136,7 @@ export default function Login() {
 
   return (
     <>
-      <Title>Login | Bookshelf</Title>
+      <Title>Login | Rak Buku</Title>
       {session && <Navigate to={REACT_APP_PREFIX} replace state={{ from: location }} />}
       <section id="login_page" className="pt-36 dark:bg-dark pb-36">
         {alert.is_show && (
@@ -97,11 +146,11 @@ export default function Login() {
         )}
         <div className="container mx-auto px-6">
           <div className="flex flex-wrap">
-            <div className="card card_login flex flex-wrap bg-white dark:bg-slate-700">
+            <div className="card card_login flex flex-wrap bg-white dark:bg-slate-700" ref={ref_card_login}>
               <div className="flex-[1_0_0%] w-full max-w-full px-5">
                 <div className="card_header">
-                  <div className="card_greeting dark:text-white">Selamat Datang</div>
-                  <div className="card_introduction dark:text-slate-300">Masuk atau daftar untuk menikmati fitur aplikasi bookshelf</div>
+                  <div className="card_greeting dark:text-white">{text_greeting.current}</div>
+                  <div className="card_introduction dark:text-slate-300">{text_introduction.current}</div>
                   <div className="card_logo mx-auto">
                     <img className="img_logo" src="./assets/img/bookshelf_icon_mini.png" alt="" />
                   </div>
@@ -109,13 +158,21 @@ export default function Login() {
                 <div className="card_body">
                   <form action="#" method="post" ref={ref_form_login}>
                     <div className="mb-3">
-                      <input type="email" className="form_control" name="email" id="email" placeholder="user@email.com" />
+                      <div className="input_group">
+                        <input type="text" className="form_control" name="login_user" id="login_user" placeholder=" " />
+                        <label htmlFor="login_user" className="place_label">
+                          Username / Email
+                        </label>
+                      </div>
                     </div>
                     <div className="mb-3">
                       <div className="input_group">
-                        <input type="password" className="form_control" name="password" id="password" placeholder="********" ref={ref_password} />
+                        <input type="password" className="form_control" name="password" id="password" placeholder=" " ref={ref_password} />
+                        <label htmlFor="password" className="place_label">
+                          Password
+                        </label>
                         <button type="button" className="card_btn_pass" ref={ref_card_btn_pass}>
-                          <i className="bi bi-eye"></i>
+                          <i className="bi bi-eye dark:text-slate-200 text-dark"></i>
                         </button>
                       </div>
                     </div>

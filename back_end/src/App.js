@@ -10,6 +10,7 @@ import cors from "cors";
 const app = express();
 const http = require("http").createServer(app);
 const port = 5000;
+app.locals.moment = require("moment");
 
 // route
 

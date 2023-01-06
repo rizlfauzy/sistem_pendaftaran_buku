@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect,useLayoutEffect, useCallback } from "react";
 import { Link, useLocation, Navigate } from "react-router-dom";
+import gsap from "gsap"
 
 import Alert from "./alert";
 
@@ -32,6 +33,8 @@ export default function Navbar({ data, isLoading }) {
     return theme === "dark" ? true : false;
   });
 
+  const on_click_link_to_top = useCallback(()=>window.scrollTo(0,0),[])
+
   const on_click_hamburger_btn = useCallback((e) => {
     const humberger_btn = ref_humbeger_btn.current;
     const nav_menu = humberger_btn.nextElementSibling;
@@ -57,6 +60,24 @@ export default function Navbar({ data, isLoading }) {
   }, []);
 
   useEffect(() => {
+    const header = ref_header.current;
+
+    gsap.fromTo(
+      header,
+      {
+        opacity: 0,
+        y: -100,
+      },
+      {
+        duration: 2,
+        opacity: 1,
+        ease: "bounce",
+        y: 0,
+      }
+    );
+  },[]);
+
+  useLayoutEffect(() => {
     const humberger_btn = ref_humbeger_btn.current;
     const dark_toggle = ref_dark_toggle.current;
     const logout_btn = ref_logout_btn.current;
@@ -102,7 +123,7 @@ export default function Navbar({ data, isLoading }) {
         <div className="container">
           <div className="flex items-center justify-between relative">
             <div className="px-4">
-              <Link to="/" className="font-bold text-lg text-slate-700 dark:text-primary block py-6 ">
+              <Link to={REACT_APP_PREFIX} className="font-bold text-lg text-slate-700 dark:text-primary block py-6 ">
                 <i className="bi bi-journal-text mr-2"></i>
                 Rak Buku
               </Link>
@@ -119,7 +140,11 @@ export default function Navbar({ data, isLoading }) {
               >
                 <ul ref={ref_nav_list} className="block lg:flex nav-list">
                   <li className="group">
-                    <Link to="/" className={"text-base text-dark mx-8 flex py-2 group-hover:text-slate-800 dark:group-hover:text-primary dark:text-white nav-link " + (pathname === REACT_APP_PREFIX && "active")}>
+                    <Link
+                      to={REACT_APP_PREFIX}
+                      className={"text-base text-dark mx-8 flex py-2 group-hover:text-slate-800 dark:group-hover:text-primary dark:text-white nav-link " + (pathname === REACT_APP_PREFIX ? "active" : "")}
+                      onClick={on_click_link_to_top.bind(this)}
+                    >
                       Beranda
                     </Link>
                   </li>
@@ -128,12 +153,7 @@ export default function Navbar({ data, isLoading }) {
                       <div>
                         <div className="dropdown relative">
                           <button
-                            className="
-                                  dropdown-toggle
-                                  flex
-                                  items-center
-                                  whitespace-nowrap
-                                "
+                            className="dropdown-toggle flex items-center whitespace-nowrap"
                             type="button"
                             id="dropdownMenuButton1"
                             data-bs-toggle="dropdown"
@@ -156,54 +176,24 @@ export default function Navbar({ data, isLoading }) {
                             )}
                           </button>
                           <ul
-                            className="
-                                  dropdown-menu
-                                  min-w-max
-                                  absolute
-                                  hidden
-                                  bg-white
-                                  dark:bg-dark
-                                  text-base
-                                  z-50
-                                  float-left
-                                  py-2
-                                  list-none
-                                  text-left
-                                  rounded-lg
-                                  shadow-lg
-                                  mt-1
-                                  m-0
-                                  bg-clip-padding
-                                  border-none
-                                "
+                            className=" dropdown-menu min-w-max absolute hidden bg-white dark:bg-dark text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none "
                             aria-labelledby="dropdownMenuButton1"
                           >
                             <li>
                               <Link
-                                to={`${REACT_APP_PREFIX}Profil"`}
+                                to={`${REACT_APP_PREFIX}profil`}
                                 className={
-                                  "dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" +
-                                  (pathname === `${REACT_APP_PREFIX}Profil` && "active")
+                                  "dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 " +
+                                  (pathname === `${REACT_APP_PREFIX}profil` ? "active" : "")
                                 }
+                                onClick={on_click_link_to_top.bind(this)}
                               >
                                 Profil
                               </Link>
                             </li>
                             <li>
                               <button
-                                className="dropdown-item
-                                      text-sm
-                                      py-2
-                                      px-4
-                                      font-normal
-                                      block
-                                      w-full
-                                      whitespace-nowrap
-                                      bg-transparent
-                                      text-gray-700
-                                      dark:text-white
-                                      hover:bg-gray-100
-                                      dark:hover:bg-gray-800"
+                                className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                                 ref={ref_logout_btn}
                               >
                                 Keluar

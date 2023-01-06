@@ -11,7 +11,7 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { StaleWhileRevalidate,NetworkFirst } from 'workbox-strategies';
 
 clientsClaim();
 
@@ -50,9 +50,9 @@ registerRoute(
 // precache, in this case same-origin .png requests like those from in public/
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
-  ({ url }) => url.origin === self.location.origin && url.pathname.endsWith('.png'), // Customize this strategy as needed, e.g., by changing to CacheFirst.
+  ({ url }) => url.origin === self.location.origin && /\.(jpe?g|png|svg|ico)$/i.test(url.pathname), // Customize this strategy as needed, e.g., by changing to CacheFirst.
   new StaleWhileRevalidate({
-    cacheName: 'images',
+    cacheName: "images",
     plugins: [
       // Ensure that once this runtime cache reaches a maximum size the
       // least-recently used images are removed.
@@ -60,6 +60,52 @@ registerRoute(
     ],
   })
 );
+
+registerRoute(
+  ({ url }) => url.origin === self.location.origin && /\.(css|js)$/i.test(url.pathname),
+  new StaleWhileRevalidate({
+    cacheName: "css_javascript_file",
+    plugins: [
+      new ExpirationPlugin({maxEntries:50})
+    ]
+  })
+)
+
+registerRoute(
+  ({ url }) => url.origin === "https://fonts.googleapis.com" || url.origin === "https://fonts.gstatic.com",
+  new NetworkFirst({
+    cacheName: "google-fonts-cache",
+    plugins: [
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+        maxEntries: 30,
+      }),
+    ],
+  })
+);
+
+registerRoute(
+  ({ url }) => /\.(jpe?g|png|js|json)$/i.test(url.pathname),
+  new StaleWhileRevalidate({
+    cacheName: "api-image-and-sw-files",
+    plugins: [
+      new ExpirationPlugin({
+        maxAgeSeconds: 360, // 360 second
+        maxEntries: 30,
+      }),
+    ],
+  })
+);
+
+self.addEventListener("install", (e) => {
+  const asyncInstall = new Promise((resolve) => {
+    setTimeout(resolve, 5000);
+  });
+  e.waitUntil(asyncInstall);
+});
+
+self.addEventListener("activate", (e) => {
+});
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})

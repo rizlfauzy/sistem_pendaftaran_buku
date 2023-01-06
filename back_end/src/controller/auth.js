@@ -12,11 +12,11 @@ auth.generateToken =async (req, res) => {
         let jwtSecretKey = process.env.JWT_SECRET_KEY;
         let session = req.session;
         let data = {
-            email: req.body.email
+            login_user: req.body.login_user
         }
         const token = jwt.sign(data, jwtSecretKey, { expiresIn: '30m' });
         session.token = token;
-        const [result_select_user_id] = await sequelize.default.query(`select id from users where email LIKE '%${req.body.email}%'`)
+        const [result_select_user_id] = await sequelize.default.query(`select id from users where email = '${req.body.login_user}' or username = '${req.body.login_user}'`);
         await sequelize.default.query(`insert into login_session (jwt_token,is_valid,user_id) values ('${token}',1,'${result_select_user_id[0].id}')`)
         res.status(200).json({ message: 'Token berhasil digenerate', error: false, token });
     } catch (error) {
@@ -25,10 +25,10 @@ auth.generateToken =async (req, res) => {
 }
 
 auth.login = async (req, res, next) => {
-    const { email, password } = req.body;
+    const { login_user, password } = req.body;
     try {
-        const [data] = await sequelize.default.query(`SELECT email, password FROM users where email LIKE '%${email}%'`);
-        if (data.length < 1) throw new Error('Email belum terdaftar !');
+        const [data] = await sequelize.default.query(`SELECT email, password FROM users where email = '${login_user}' or username = '${login_user}'`);
+        if (data.length < 1) throw new Error('Username / Email belum terdaftar !');
         if (!validatePassword(password, data[0].password)) throw new Error('Password salah !');
         next();
     } catch (error) {
@@ -37,22 +37,24 @@ auth.login = async (req, res, next) => {
 
 }
 
-auth.register = async (req, res, next) => {
-    const { username, email, password } = req.body;
+auth.register = async (req, res) => {
+    const { name,username, email, password } = req.body;
     try {
         if (!req.file) throw new Error('Gagal upload photo !');
         const { path, originalname } = req.file;
-        if (utils.isFormat(originalname, 'jpg', 'png', 'jpeg')) throw new Error('Format file tidak sesuai !');
+        if (!utils.isFormat(originalname, 'jpg', 'png', 'jpeg')) throw new Error("Ekstensi file tidak didukung");
         fs.renameSync(path, `public/img/${originalname}`);
-        if (!username) throw new Error('Username harus diinput');
+        if (!name) throw new Error('Nama harus diinput');
+        if (!username) throw new Error('Nama Pengguna harus diinput');
         if (!email) throw new Error('Email harus diinput');
         if (!password) throw new Error('Password harus diinput');
         const [emailDb] = await sequelize.default.query(`SELECT email FROM users where email LIKE '%${email}%'`);
+        const [select_username] = await sequelize.default.query(`SELECT username FROM users where username = '${username}'`);
         if (emailDb.length > 0) throw new Error('Email sudah digunakan');
+        if (select_username.length > 0) throw new Error('Nama Pengguna sudah digunakan');
         if (password.length < 8) throw new Error('Password harus lebih dari 8 karakter');
-        await sequelize.default.query(`INSERT INTO users (username, email, password, photo) values ('${username}', '${email}', '${beforeCreate(password)}', '${originalname}')`)
-        // await sequelize.default.query(`INSERT INTO users (username, email, password) values ('${username}', '${email}', '${beforeCreate(password)}')`)
-        res.status(200).json({ message: 'User berhasil dibuat', error: false });
+        await sequelize.default.query(`INSERT INTO users (name, username, email, password, photo) values ('${name}','${username}', '${email}', '${beforeCreate(password)}', '${originalname}')`)
+        res.status(200).json({ message: 'Pengguna berhasil dibuat', error: false });
     } catch (error) {
         res.status(500).json({ message: error.message, error: true });
     }

@@ -12,7 +12,9 @@ $secondary_bg_color: #00b3b3;
 $secondary_text_color: #9cf3f0;
 $tertiary_bg_color: #009999;
 $tertiary_text_color: #949494;
+$dark_text_color: #0f172a;
 $border_radius: 5px;
+$font_very_very_very_small: 0.5rem;
 $font_very_very_small: 0.6rem;
 $font_very_small: 0.8rem;
 $font_small: 1rem;
@@ -63,22 +65,20 @@ body {
 }
 
 // scrollbar
-body {
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-  &::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-    border-radius: 10px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: $secondary_bg_color;
-    border-radius: 10px;
-  }
-  @media screen and (max-width: 768px) {
-    &::-webkit-scrollbar {
-      width: 5px;
-    }
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: $secondary_bg_color;
+  border-radius: 10px;
+}
+@media screen and (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 5px;
   }
 }
 
@@ -109,11 +109,6 @@ div.full_card {
   max-width: 396px;
   text-align: left;
   .card_header {
-    .link_back {
-      display: inline-block;
-      @include formatText(600, $font_medium, 1.2, $primary_bg_color);
-      margin-right: 10px;
-    }
     .card_greeting {
       @include formatText(600, $font_medium, 1.2, $primary_bg_color);
       text-align: left;
@@ -163,6 +158,10 @@ div.full_card {
           border-radius: 50%;
           justify-content: center;
           align-items: center;
+          @apply dark:bg-dark;
+          i {
+            color: $primary_bg_color;
+          }
         }
       }
     }
@@ -177,38 +176,38 @@ div.full_card {
 
 // strip text styles
 .strip_text {
-      width: auto;
-      margin: 10px 8px;
-      overflow: hidden;
-      text-align: center;
-      white-space: nowrap;
-      color: rgb(124, 124, 124);
-      & > span {
-        position: relative;
-        display: inline-block;
-        @include formatText(400, $font_very_small, 1.5, $tertiary_text_color);
-        &::before {
-          content: "";
-          height: 1px;
-          position: absolute;
-          top: 50%;
-          width: 9999px;
-          background: #d7dade;
-          margin-right: 15px;
-          right: 100%;
-        }
-        &::after {
-          content: "";
-          height: 1px;
-          position: absolute;
-          top: 50%;
-          width: 9999px;
-          background: #d7dade;
-          left: 100%;
-          margin-left: 15px;
-        }
-      }
+  width: auto;
+  margin: 10px 8px;
+  overflow: hidden;
+  text-align: center;
+  white-space: nowrap;
+  color: rgb(124, 124, 124);
+  & > span {
+    position: relative;
+    display: inline-block;
+    @include formatText(400, $font_very_small, 1.5, $tertiary_text_color);
+    &::before {
+      content: "";
+      height: 1px;
+      position: absolute;
+      top: 50%;
+      width: 9999px;
+      background: #d7dade;
+      margin-right: 15px;
+      right: 100%;
     }
+    &::after {
+      content: "";
+      height: 1px;
+      position: absolute;
+      top: 50%;
+      width: 9999px;
+      background: #d7dade;
+      left: 100%;
+      margin-left: 15px;
+    }
+  }
+}
 
 // form styles
 .input_group {
@@ -236,11 +235,19 @@ div.full_card {
     left: 25px;
     transform: translateY(-50%);
     z-index: 2;
+    cursor: text;
     @include formatText(500, $font_very_small, 1.5, $tertiary_text_color);
+    &.label_modal {
+      left: 10px;
+      @include formatText(500, $font_very_very_very_small + 0.25, 1.5, $tertiary_text_color);
+    }
   }
   & > :is(.form_control:not(:placeholder-shown), .form_control:focus) + .place_label {
     top: 20%;
     @include formatText(400, $font_very_very_small, 1.5, $tertiary_text_color);
+  }
+  & > :is(.form_control:not(:placeholder-shown), .form_control:focus) + .place_label.label_modal {
+    @include formatText(400, $font_very_very_very_small, 1.5, $tertiary_text_color);
   }
   .card_btn_pass {
     &.active {
@@ -257,9 +264,10 @@ div.full_card {
   @include formatText(500, $font_very_small, 1.5, $tertiary_text_color);
   border-radius: 0.75rem;
   width: 100%;
+  @apply dark:bg-slate-900 dark:border-[#949494];
   &:focus {
     color: $tertiary_text_color;
-    background-color: #fff;
+    // background-color: #fff;
     border-color: #86b7fe;
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
@@ -291,7 +299,7 @@ div.full_card {
     }
   }
   &.btn_warning {
-    @apply bg-yellow-500 hover:bg-yellow-600;
+    @apply bg-yellow-400 hover:bg-yellow-500;
     @include formatText(600, $font_medium, 1.5, $primary_text_color);
   }
   &.btn_reset {
@@ -302,9 +310,6 @@ div.full_card {
     @apply bg-gray-500 hover:bg-gray-600;
     @include formatText(600, $font_medium, 1.5, $primary_text_color);
   }
-  &.link_btn {
-    @apply px-5 text-center;
-  }
   &.btn_back_to_default_img {
     @include formatText(300, $font_very_small, 1.5, $primary_text_color);
     @apply px-5 text-center;
@@ -313,6 +318,32 @@ div.full_card {
     &:hover {
       background-color: $tertiary_bg_color;
       border-color: $tertiary_bg_color;
+    }
+  }
+}
+
+// link styles
+.link_back {
+  display: inline-block;
+  @include formatText(600, $font_medium, 1.2, $primary_bg_color);
+  margin-right: 10px;
+}
+.link_btn {
+  @apply px-5 text-center;
+}
+.link {
+  padding: 10px 0;
+  border-radius: $border_radius + 3px;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.3s ease;
+  &_primary {
+    background-color: $primary_bg_color;
+    border-color: $primary_bg_color;
+    @include formatText(600, $font_small, 1.5, $primary_text_color);
+    &:hover {
+      background-color: $secondary_bg_color;
+      border-color: $secondary_bg_color;
     }
   }
 }
@@ -327,8 +358,11 @@ div.full_card {
     .active {
       color: $secondary_bg_color;
     }
+    .dropdown-item.active {
+      @apply dark:bg-dark bg-white dark:hover:bg-gray-800 hover:bg-gray-100;
+    }
     .img_profil {
-      @apply w-10 h-10 rounded-full;
+      @apply w-10 h-10 rounded-full object-cover;
       border: 3px solid $secondary_bg_color;
     }
   }
@@ -358,12 +392,11 @@ div.full_card {
 
 // tables styles
 .table_container {
-  max-height: 45vh;
+  max-height: 62vh;
   overflow-y: auto;
   table {
-    border-radius: 10px;
     overflow: hidden;
-
+    border-radius: 10px;
     thead {
       tr th.th_thead {
         @apply text-xs lg:text-sm font-medium text-white lg:px-6 lg:py-4 px-3 py-2 text-left;
@@ -377,6 +410,92 @@ div.full_card {
   }
 }
 
+// popup styles
+.pop_up_wrapper {
+  position: relative;
+  & > .pop_up.on_pop {
+    z-index: 998;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(75%, 0);
+    width: 600px;
+    background-color: $primary_text_color;
+    @apply dark:bg-slate-800;
+    box-shadow: -5px 5px 20px 0px grey;
+    padding: 10px 15px;
+    border-radius: $border_radius * 2;
+    &.pop_up_modal {
+      top: 30%;
+      left: 45%;
+      transform: translate(-50%, -50%);
+      width: 225px;
+      .pop_up_close {
+        button {
+          @apply p-2;
+        }
+      }
+    }
+    .pop_up_header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      .pop_up_title {
+        @include formatText(600, $font_medium, 1.5, $primary_text_color);
+        @apply dark:text-white text-dark;
+      }
+      .pop_up_close {
+        @apply cursor-pointer;
+        button {
+          @apply px-4;
+        }
+      }
+    }
+    .pop_up_table {
+      .pop_up_content {
+        &_image {
+          object-fit: cover;
+          width: 100%;
+          border-radius: $border-radius;
+          box-shadow: 0px 3px 20px 0px grey;
+          img {
+            width: 100%;
+          }
+        }
+      }
+    }
+    .pop_up_button {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      button {
+        width: 100%;
+      }
+    }
+    @media screen and (max-width: 1024px) {
+      width: 100%;
+      right: 50%;
+      top: -5%;
+      transform: translate(50%, 50%);
+    }
+  }
+  & > .pop_up.on_hidden {
+    display: none;
+  }
+}
+
+// profil styles
+.tr_show {
+  @include formatText(500, $font_very_small, 1.4, $dark_text_color);
+  @apply dark:text-white;
+  th,
+  td {
+    padding-bottom: 5px;
+    word-wrap: normal;
+  }
+}
+
 // modal styles
 .modal_box {
   display: block; /* Hidden by default */
@@ -385,9 +504,9 @@ div.full_card {
   left: 0;
   top: 0;
   width: 100%; /* Full width */
-  height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgba(94, 94, 94, 0.5);
+  @apply dark:bg-[rgba(15,15,15,0.7)];
   padding-top: 50px;
   .modal_close {
     position: absolute;
@@ -409,6 +528,15 @@ div.full_card {
     .modal_container {
       padding: 16px;
       text-align: center;
+      .modal_image {
+        width: 150px;
+        @apply mx-auto rounded-[10px] mt-4 mb-6;
+        box-shadow: 0px 0px 10px 3px rgb(101 101 101 / 75%);
+        img {
+          width: 100%;
+          object-fit: cover;
+        }
+      }
       .modal_header {
         @include formatText(bolder, $font_small, 1.5, $secondary_bg_color);
         @media screen and (max-width: 400px) {
@@ -417,6 +545,22 @@ div.full_card {
       }
     }
   }
+  @media screen and (max-width: 400px) {
+    // position: relative;
+    // top: 50%;
+    // transform: translateY(-60%);
+    height: 100%;
+    .modal_content {
+      @apply mx-5;
+    }
+  }
+}
+
+// gsap animation
+.gs_trigger {
+  opacity: 0;
+  visibility: hidden;
+  // will-change: transform, opacity;
 }
 
 // footer styles

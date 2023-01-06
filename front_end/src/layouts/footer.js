@@ -2,11 +2,11 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="footer">
+    <footer className="footer gs_trigger gs_trigger_from_down">
       <div className="flex flex-wrap">
         <div className="lg:w-1/2 w-full">
           <div className="footer_content">
-            <div className="footer_title">Details</div>
+            <div className="footer_title">Keterangan</div>
             <div className="footer_body">
               <ul>
                 <li>
@@ -63,7 +63,7 @@ export default function Footer() {
           <div className="footer_content mt-7">
             <div className="footer_body text-center">
               <i className="bi bi-c-circle-fill mr-5"></i>
-              <span>Copyright {new Date().getFullYear()} | made with love by Kelompok 8</span>
+              <span>Copyright {new Date().getFullYear()} | made with love ❤️ by Kelompok 8</span>
             </div>
           </div>
         </div>

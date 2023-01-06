@@ -14,6 +14,7 @@ import Alert from "../alert";
 import TableComponent from "./table/table_component";
 import ModalEditBook from "../modals/modal_edit_book";
 import ModalDelete from "../modals/modal_delete";
+import ModalShowBook from "../modals/modal_show_book";
 
 const { REACT_APP_PREFIX } = process.env;
 
@@ -23,6 +24,10 @@ export default function BookTable({ data_user, isLoading_user,set_is_add, is_add
     book_id: null,
   });
   const [modal_delete, set_modal_delete] = useState({
+    show: false,
+    book_id: null,
+  });
+  const [modal_show, set_modal_show] = useState({
     show: false,
     book_id: null,
   });
@@ -36,6 +41,7 @@ export default function BookTable({ data_user, isLoading_user,set_is_add, is_add
   const on_click_is_read = useCallback(
     async (e) => {
       e.preventDefault();
+      e.stopPropagation();
       try {
         const btn_not_read = e.target;
         const { book_id, is_completed } = isEmpty(btn_not_read.dataset) ? btn_not_read.parentElement.dataset : btn_not_read.dataset;
@@ -62,6 +68,7 @@ export default function BookTable({ data_user, isLoading_user,set_is_add, is_add
           message: message_update_read,
         });
       } catch (error) {
+        if (e.message.toLowerCase().includes("failed to fetch")) e.message = "koneksi gagal, sepertinya Anda sedang offline !!!";
         set_alert({
           type: "error",
           message: error.message,
@@ -79,6 +86,7 @@ export default function BookTable({ data_user, isLoading_user,set_is_add, is_add
         });
       }, 5000);
     }
+
   }, [alert, set_alert]);
 
   useEffect(() => {
@@ -91,6 +99,7 @@ export default function BookTable({ data_user, isLoading_user,set_is_add, is_add
       is_changed: false,
       title:"",
     });
+
   }, [isLoading_user, is_add.is_changed, run, session, data_user, is_edit, is_delete]);
 
   return (
@@ -100,10 +109,11 @@ export default function BookTable({ data_user, isLoading_user,set_is_add, is_add
           {alert.message}
         </Alert>
       )}
+      {modal_show.show && <ModalShowBook set_modal_show={set_modal_show} book_id={modal_show.book_id} set_alert={set_alert} />}
       {modal_edit.show && <ModalEditBook set_modal_edit={set_modal_edit} book_id={modal_edit.book_id} set_alert={set_alert} set_is_edit={set_is_delete} />}
       {modal_delete.show && <ModalDelete set_modal_delete={set_modal_delete} book_id={modal_delete.book_id} set_alert={set_alert} set_is_delete={set_is_delete} />}
-      <div className="full_card card card_login flex flex-wrap bg-white dark:bg-slate-700 mt-10">
-        <div className="lg:w-1/2 w-full px-5">
+      <div className="full_card card card_login flex flex-wrap bg-white dark:bg-slate-700 mt-44 gs_trigger gs_trigger_from_down">
+        <div className="lg:w-1/2 w-full px-5 gs_trigger gs_trigger_from_left">
           <div className="card_header">
             <div className="flex">
               <div className="card_greeting dark:text-white">Buku belum dibaca</div>
@@ -141,7 +151,9 @@ export default function BookTable({ data_user, isLoading_user,set_is_add, is_add
                     </tr>
                   ) : data?.data ? (
                     (data?.data?.length && data?.data.filter((item) => item.is_completed === 0).length) > 0 ? (
-                      <ProgressLoadingBar element={<TableComponent arr_element={data} is_completed={0} on_click_is_read={on_click_is_read} set_modal_edit={set_modal_edit} set_modal_delete={set_modal_delete} />} />
+                      <ProgressLoadingBar
+                        element={<TableComponent arr_element={data} is_completed={0} on_click_is_read={on_click_is_read} set_modal_show={set_modal_show} set_modal_edit={set_modal_edit} set_modal_delete={set_modal_delete} />}
+                      />
                     ) : (
                       <tr className="bg-gray-100 dark:bg-slate-600 border-b transition duration-300 ease-in-out hover:bg-gray-200 dark:hover:bg-gray-800">
                         <td colSpan="5" className="td_tbody !text-center">
@@ -159,7 +171,7 @@ export default function BookTable({ data_user, isLoading_user,set_is_add, is_add
             </div>
           </div>
         </div>
-        <div className="lg:w-1/2 w-full px-5 lg:mt-0 mt-10">
+        <div className="lg:w-1/2 w-full px-5 lg:mt-0 mt-10 gs_trigger gs_trigger_from_right">
           <div className="card_header">
             <div className="flex">
               <div className="card_greeting dark:text-white">Buku sudah dibaca</div>
@@ -197,7 +209,9 @@ export default function BookTable({ data_user, isLoading_user,set_is_add, is_add
                     </tr>
                   ) : data?.data ? (
                     (data?.data?.length && data?.data.filter((item) => item.is_completed === 1).length) > 0 ? (
-                      <ProgressLoadingBar element={<TableComponent arr_element={data} is_completed={1} on_click_is_read={on_click_is_read} set_modal_edit={set_modal_edit} set_modal_delete={set_modal_delete} />} />
+                      <ProgressLoadingBar
+                        element={<TableComponent arr_element={data} is_completed={1} on_click_is_read={on_click_is_read} set_modal_show={set_modal_show} set_modal_edit={set_modal_edit} set_modal_delete={set_modal_delete} />}
+                      />
                     ) : (
                       <tr className="bg-gray-100 dark:bg-slate-600 border-b transition duration-300 ease-in-out hover:bg-gray-200 dark:hover:bg-gray-800">
                         <td colSpan="5" className="td_tbody !text-center">

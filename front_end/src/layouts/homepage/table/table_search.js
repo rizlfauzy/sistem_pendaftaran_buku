@@ -11,6 +11,7 @@ import { isEmpty } from "../../../helpers/formatting/validation";
 import ProgressLoadingBar from "../../loading/progress_loading_bar";
 import ModalEditBook from "../../modals/modal_edit_book";
 import ModalDelete from "../../modals/modal_delete";
+import ModalShowBook from "../../modals/modal_show_book";
 
 const { REACT_APP_PREFIX } = process.env;
 
@@ -30,10 +31,15 @@ export default function TableSearch({ search, set_alert,set_is_add,is_add, set_i
     show: false,
     book_id: null,
   });
+  const [modal_show, set_modal_show] = useState({
+    show: false,
+    book_id: null,
+  });
 
   const on_click_is_read = useCallback(
     async (e) => {
       e.preventDefault();
+      e.stopPropagation();
       try {
         const btn_read = e.target;
         const { book_id, is_completed } = isEmpty(btn_read.dataset) ? btn_read.parentElement.dataset : btn_read.dataset;
@@ -50,6 +56,7 @@ export default function TableSearch({ search, set_alert,set_is_add,is_add, set_i
           message: message_update_read,
         });
       } catch (error) {
+        if (e.message.toLowerCase().includes("failed to fetch")) e.message = "koneksi gagal, sepertinya Anda sedang offline !!!";
         set_alert({
           type: "error",
           message: error.message,
@@ -68,9 +75,10 @@ export default function TableSearch({ search, set_alert,set_is_add,is_add, set_i
 
     return (
       <>
+        {modal_show.show && <ModalShowBook set_modal_show={set_modal_show} book_id={modal_show.book_id} set_alert={set_alert} />}
         {modal_edit.show && <ModalEditBook set_modal_edit={set_modal_edit} book_id={modal_edit.book_id} set_alert={set_alert} set_is_edit={set_is_edit} />}
         {modal_delete.show && <ModalDelete set_modal_delete={set_modal_delete} book_id={modal_delete.book_id} set_alert={set_alert} set_is_delete={set_is_delete} />}
-        <div className="table_search overflow-x-auto table_container">
+        <div className="table_search overflow-x-auto table_container !max-h-[35vh]">
           <table className="table w-full">
             <thead className="bg-light-green border-b dark:border-slate-700 border-white">
               <tr>
@@ -103,7 +111,11 @@ export default function TableSearch({ search, set_alert,set_is_add,is_add, set_i
                   <ProgressLoadingBar
                     element={data?.data.map((item, index) => {
                       return (
-                        <tr key={item.id} className="bg-gray-100 dark:bg-slate-600 border-b transition duration-300 ease-in-out hover:bg-gray-200 dark:hover:bg-gray-800">
+                        <tr
+                          key={item.id}
+                          className="bg-gray-100 dark:bg-slate-600 border-b transition duration-300 ease-in-out hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer"
+                          onClick={set_modal_show.bind(this, { show: true, book_id: item.id })}
+                        >
                           <td className="td_tbody">{index + 1}</td>
                           <td className="td_tbody">{item.title}</td>
                           <td className="td_tbody">{item.author}</td>
@@ -115,20 +127,26 @@ export default function TableSearch({ search, set_alert,set_is_add,is_add, set_i
                             <button
                               type="button"
                               className="btn btn_warning w-full mb-3"
-                              onClick={set_modal_edit.bind(this, {
-                                show: true,
-                                book_id: item.id,
-                              })}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                set_modal_edit({
+                                  show: true,
+                                  book_id: item.id,
+                                });
+                              }}
                             >
                               <i className="bi bi-pencil-fill text-white"></i>
                             </button>
                             <button
                               type="button"
                               className="btn btn_reset w-full"
-                              onClick={set_modal_delete.bind(this, {
-                                show: true,
-                                book_id: item.id,
-                              })}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                set_modal_delete({
+                                  show: true,
+                                  book_id: item.id,
+                                });
+                              }}
                             >
                               <i className="bi bi-trash-fill text-white"></i>
                             </button>

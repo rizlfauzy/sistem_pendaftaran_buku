@@ -10,9 +10,13 @@ import Alert from "./alert";
 import InsertSearch from "./homepage/insert_search";
 import BookTable from "./homepage/book_table";
 
+import { addClass, removeClass } from "../helpers/formatting/class_name_modifier";
+import { isNumeric } from "../helpers/formatting/validation";
+
 export default function HomePage({ data_user, isLoading_user }) {
   const ref_is_read = useRef(null);
   const ref_form_insert_book = useRef(null);
+  const ref_pop_up = useRef(null);
 
   const [user_id, set_user_id] = useState(() => {
     return isLoading_user ? "" : data_user?.data?.id;
@@ -34,7 +38,10 @@ export default function HomePage({ data_user, isLoading_user }) {
       try {
         const form_insert_book = ref_form_insert_book.current;
         const input_is_read = ref_is_read.current;
+        const pop_up = ref_pop_up.current;
 
+        addClass(pop_up, "on_hidden");
+        removeClass(pop_up, "on_pop");
         const form_data = new FormData(form_insert_book);
         const form = Object.fromEntries(form_data);
         form.is_completed = input_is_read.checked ? "1" : "0";
@@ -42,7 +49,14 @@ export default function HomePage({ data_user, isLoading_user }) {
         if (!book_title) throw new Error("Judul buku tidak boleh kosong");
         if (!book_author) throw new Error("Penulis buku tidak boleh kosong");
         if (!book_year) throw new Error("Tahun buku tidak boleh kosong");
+        form.book_description = form.book_description || "Deskripsi tidak diketahui";
+        form.book_web_reader_link = form.book_web_reader_link || "Link tidak diketahui";
+        form.book_image = form.book_image || "https://via.placeholder.com/128x193";
+        form.book_list_price = form.book_list_price || "-";
+        form.book_retail_price = form.book_retail_price || "-";
+        form.book_currency = form.book_currency || "IDR";
         if (!is_completed) throw new Error("Buku belum ditandai");
+        if (!isNumeric(book_year)) throw new Error("Pastikan tahun berupa angka");
         if (parseInt(book_year) > new Date().getFullYear()) throw new Error("Tahun buku tidak boleh lebih besar dari tahun sekarang");
         if (parseInt(book_year) < 1900) throw new Error("Tahun buku tidak boleh kurang dari 1900");
         const { error: error_insert_book, message: message_insert_book } = await run(post_data({ url: "/book", method: "POST", token: session, data: form }));
@@ -58,6 +72,7 @@ export default function HomePage({ data_user, isLoading_user }) {
           message: message_insert_book,
         });
       } catch (e) {
+        if (e.message.toLowerCase().includes("failed to fetch")) e.message = "koneksi gagal, sepertinya Anda sedang offline !!!";
         set_alert({
           type: "error",
           message: e.message,
@@ -99,7 +114,19 @@ export default function HomePage({ data_user, isLoading_user }) {
           {alert.message}
         </Alert>
       )}
-      <InsertSearch ref_form_insert_book={ref_form_insert_book} ref_is_read={ref_is_read} user_id={user_id} set_alert={set_alert} set_is_add={set_is_add} is_add={is_add} set_is_edit={set_is_edit} is_edit={is_edit} is_delete={is_delete} set_is_delete={set_is_delete} />
+      <InsertSearch
+        ref_form_insert_book={ref_form_insert_book}
+        ref_is_read={ref_is_read}
+        ref_pop_up={ref_pop_up}
+        user_id={user_id}
+        set_alert={set_alert}
+        set_is_add={set_is_add}
+        is_add={is_add}
+        set_is_edit={set_is_edit}
+        is_edit={is_edit}
+        is_delete={is_delete}
+        set_is_delete={set_is_delete}
+      />
       <BookTable data_user={data_user} isLoading_user={isLoading_user} set_is_add={set_is_add} is_add={is_add} set_is_edit={set_is_edit} is_edit={is_edit} set_is_delete={set_is_delete} is_delete={is_delete} />
     </>
   );

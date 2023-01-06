@@ -24,6 +24,7 @@ export default function ModalDelete({ set_modal_delete, book_id,set_alert,set_is
       set_is_delete(true);
       set_modal_delete({ show: false, book_id: null });
     } catch (e) {
+      if (e.message.toLowerCase().includes("failed to fetch")) e.message = "koneksi gagal, sepertinya Anda sedang offline !!!";
       set_alert({
         type: "error",
         message: e.message,

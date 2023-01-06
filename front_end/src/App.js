@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Index from "./pages/index";
+import Profil from "./pages/profil";
 
 const { REACT_APP_PREFIX } = process.env;
 
@@ -16,6 +17,7 @@ function App() {
           <Route path={`${REACT_APP_PREFIX}register`} element={<Register />} />
           <Route path={`${REACT_APP_PREFIX}login`} element={<Login />} />
           <Route path={`${REACT_APP_PREFIX}`} element={<Index title="Beranda" />} />
+          <Route path={`${REACT_APP_PREFIX}profil`} element={<Profil />} />
         </Routes>
       </Router>
     </div>
