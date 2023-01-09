@@ -8,3 +8,4 @@ export default router
   .get("/login", home.index)
   .get("/register", home.index)
   .get("/logout", home.index)
+  // .get(home.index)

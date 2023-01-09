@@ -648,14 +648,14 @@ video {
   margin-right: 2rem;
 }
 
-.my-3{
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
 .mx-auto{
   margin-left: auto;
   margin-right: auto;
+}
+
+.my-3{
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .mx-2{
@@ -775,6 +775,10 @@ video {
   height: 1rem;
 }
 
+.\!h-56{
+  height: 14rem !important;
+}
+
 .h-6{
   height: 1.5rem;
 }
@@ -797,6 +801,10 @@ video {
 
 .h-9{
   height: 2.25rem;
+}
+
+.\!h-auto{
+  height: auto !important;
 }
 
 .max-h-\[40vh\]{
@@ -825,6 +833,10 @@ video {
 
 .w-4{
   width: 1rem;
+}
+
+.\!w-56{
+  width: 14rem !important;
 }
 
 .w-24{
@@ -866,6 +878,10 @@ video {
 
 .max-w-\[250px\]{
   max-width: 250px;
+}
+
+.\!max-w-\[500px\]{
+  max-width: 500px !important;
 }
 
 .max-w-full{
@@ -1357,15 +1373,37 @@ div.full_card {
   margin-bottom: 10px;
 }
 
-.card .card_header .card_logo {
+.card .card_logo {
   width: 150px;
   height: 150px;
   object-fit: cover;
 }
 
-.card .card_header .card_logo .img_logo {
+.card .card_logo .img_logo {
   width: 100%;
   height: 100%;
+}
+
+.card .card_body .card_text {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #0f172a;
+  text-align: center;
+  border-radius: 0.5rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+  padding: 0.5rem;
+}
+
+.dark .card .card_body .card_text{
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+}
+
+.card .card_body .card_text {
+  margin-bottom: 20px;
 }
 
 .card .card_body .input_photo {
@@ -2034,6 +2072,7 @@ div.full_card {
   top: 0;
   width: 100%;
   /* Full width */
+  height: 100vh;
   overflow: auto;
   /* Enable scroll if needed */
   background-color: rgba(94, 94, 94, 0.5);
@@ -2280,6 +2319,11 @@ div.full_card {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.dark .dark\:\!text-slate-300{
+  --tw-text-opacity: 1 !important;
+  color: rgb(203 213 225 / var(--tw-text-opacity)) !important;
+}
+
 .dark .dark\:text-slate-300{
   --tw-text-opacity: 1;
   color: rgb(203 213 225 / var(--tw-text-opacity));
@@ -2329,8 +2373,16 @@ div.full_card {
     margin-left: 0.5rem;
   }
 
+  .md\:\!h-96{
+    height: 24rem !important;
+  }
+
   .md\:h-12{
     height: 3rem;
+  }
+
+  .md\:\!w-96{
+    width: 24rem !important;
   }
 
   .md\:w-1\/4{
@@ -2355,6 +2407,11 @@ div.full_card {
 
   .md\:w-12{
     width: 3rem;
+  }
+
+  .md\:\!text-xl{
+    font-size: 1.25rem !important;
+    line-height: 1.75rem !important;
   }
 }
 

@@ -101,6 +101,7 @@ self.addEventListener("install", (e) => {
   const asyncInstall = new Promise((resolve) => {
     setTimeout(resolve, 5000);
   });
+  self.skipWaiting();
   e.waitUntil(asyncInstall);
 });
 

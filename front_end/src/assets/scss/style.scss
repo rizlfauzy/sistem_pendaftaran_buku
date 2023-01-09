@@ -119,17 +119,23 @@ div.full_card {
       text-align: left;
       margin-bottom: 10px;
     }
-    .card_logo {
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-      .img_logo {
-        width: 100%;
-        height: 100%;
-      }
+  }
+  .card_logo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    .img_logo {
+      width: 100%;
+      height: 100%;
     }
   }
   .card_body {
+    .card_text{
+      @include formatText(700, $font_small, 1.5, $dark_text_color);
+      text-align: center;
+      @apply dark:bg-slate-800 bg-gray-200 rounded-lg p-2;
+      margin-bottom: 20px;
+    }
     .input_photo {
       margin-bottom: 1rem;
       display: flex;
@@ -504,6 +510,7 @@ div.full_card {
   left: 0;
   top: 0;
   width: 100%; /* Full width */
+  height: 100vh;
   overflow: auto; /* Enable scroll if needed */
   background-color: rgba(94, 94, 94, 0.5);
   @apply dark:bg-[rgba(15,15,15,0.7)];

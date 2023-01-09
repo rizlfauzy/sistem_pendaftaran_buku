@@ -7,3 +7,4 @@ const { PREFIX_ROUTE } = process.env;
 
 export default router
   .use(PREFIX_ROUTE, home)
+  // .use(home)

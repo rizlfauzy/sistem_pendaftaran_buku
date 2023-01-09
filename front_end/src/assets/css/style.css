@@ -90,14 +90,24 @@ div.full_card {
   text-align: left;
   margin-bottom: 10px;
 }
-.card .card_header .card_logo {
+.card .card_logo {
   width: 150px;
   height: 150px;
   object-fit: cover;
 }
-.card .card_header .card_logo .img_logo {
+.card .card_logo .img_logo {
   width: 100%;
   height: 100%;
+}
+.card .card_body .card_text {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #0f172a;
+  text-align: center;
+  @apply dark:bg-slate-800 bg-gray-200 rounded-lg p-2;
+  margin-bottom: 20px;
 }
 .card .card_body .input_photo {
   margin-bottom: 1rem;
@@ -525,6 +535,7 @@ div.full_card {
   top: 0;
   width: 100%;
   /* Full width */
+  height: 100vh;
   overflow: auto;
   /* Enable scroll if needed */
   background-color: rgba(94, 94, 94, 0.5);

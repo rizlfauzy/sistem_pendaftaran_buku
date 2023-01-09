@@ -108,7 +108,7 @@ export default function ModalShowBook({ set_modal_show, book_id,set_alert }) {
 
   return (
     <div
-      className="modal_box"
+      className="modal_box !h-auto"
       id="modal_show_book"
       onClick={(e) => {
         e.target.id === "modal_show_book" && set_modal_show({ show: false, book_id: null });

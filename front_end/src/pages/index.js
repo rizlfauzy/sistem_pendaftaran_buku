@@ -17,7 +17,7 @@ export default function Index({ title }) {
 
   useEffect(() => {
     run(get_data({ url: "/user", token: session }));
-  }, [])
+  }, [run,session])
 
   useLayoutEffect(running_animate,[])
 

@@ -134,9 +134,9 @@ book.updateBook = async (req, res) => {
     if (!currency) return res.status(400).json({ message: "Kode Mata Uang tidak boleh kosong", error: true });
     if (!enc_id) return res.status(400).json({ message: "ID tidak boleh kosong", error: true });
     const id = decrypt(enc_id.replace(/ /g, "+"));
-    const [result_select_book] = await sequelize.query(`select * from books where title = '${title}' and author = '${author}' and id != '${id}'`);
+    const [result_select_book] = await sequelize.query(`select * from books where title = '${title.replace(/'/g, "''")}' and author = '${author.replace(/'/g, "''")}' and id != '${id}'`);
     if (result_select_book.length > 0) return res.status(400).json({ message: "Buku sudah ada", error: true });
-    const [result_update_book] = await sequelize.query(`update books set title = '${title}',author = '${author}',year = '${year}',description = '${description.replace(/'/g,"''")}', link_read = '${link_read}',thumbnail = '${thumbnail}',list_price = '${list_price}',retail_price = '${retail_price}',currency = '${currency}',is_completed='${is_completed}',updated_at = CURRENT_TIMESTAMP where id = '${id}'`);
+    const [result_update_book] = await sequelize.query(`update books set title = '${title.replace(/'/g,"''")}',author = '${author.replace(/'/g,"''")}',year = '${year}',description = '${description.replace(/'/g,"''")}', link_read = '${link_read}',thumbnail = '${thumbnail}',list_price = '${list_price}',retail_price = '${retail_price}',currency = '${currency}',is_completed='${is_completed}',updated_at = CURRENT_TIMESTAMP where id = '${id}'`);
     return res.status(200).json({ message: "Buku berhasil diubah", error: false, data: result_update_book });
   } catch (error) {
     return res.status(500).json({ message: error.message, error: true });
