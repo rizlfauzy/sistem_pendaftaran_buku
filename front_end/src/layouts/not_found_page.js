@@ -22,7 +22,7 @@ export default function NotFoundPage() {
         ease: "back",
       },
       {
-        duration: 2,
+        duration: 4,
         text: text_card_body.current,
       }
     );
