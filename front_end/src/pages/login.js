@@ -152,7 +152,7 @@ export default function Login() {
                   <div className="card_greeting dark:text-white">{text_greeting.current}</div>
                   <div className="card_introduction dark:text-slate-300">{text_introduction.current}</div>
                   <div className="card_logo mx-auto">
-                    <img className="img_logo" src="/assets/img/bookshelf_icon_mini.png" alt="Login Logo" />
+                    <img className="img_logo" src="./assets/img/bookshelf_icon_mini.png" alt="Login Logo" />
                   </div>
                 </div>
                 <div className="card_body">

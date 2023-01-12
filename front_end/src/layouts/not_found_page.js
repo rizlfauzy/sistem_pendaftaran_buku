@@ -6,6 +6,8 @@ import useAlert from "../helpers/hooks/useAlert";
 
 import Alert from "./alert";
 
+const { REACT_APP_PREFIX } = process.env;
+
 export default function NotFoundPage() {
 
   const { alert, set_alert } = useAlert();
@@ -48,7 +50,7 @@ export default function NotFoundPage() {
         <div className="w-full px-5">
           <div className="card_body">
             <div className="card_logo md:!w-96 md:!h-96 !w-56 !h-56 mx-auto">
-              <img className="img_logo" src="/assets/img/bg-404.png" alt="404 Not Found" />
+              <img className="img_logo" src={`${REACT_APP_PREFIX}assets/img/bg-404.png`} alt="404 Not Found" />
             </div>
             <div className="card_text dark:!text-slate-300 md:!text-xl md:!font-bolder">{text_card_body.current}</div>
           </div>

@@ -91,7 +91,7 @@ export default function ModalShowBook({ set_modal_show, book_id,set_alert }) {
 
       if (error_exchange) throw new Error(message_exchange);
       const { result, query } = data_currency;
-      const currency = parseFloat(result).toFixed(2).replace(/\./g,",")
+      const currency = currency_to === "IDR" ? format_rupiah(Math.round(result).toString()) : parseFloat(result).toFixed(2).replace(/\./g, ",");
       span_currency.innerHTML = `${currency} ${query.to}`;
     } catch (e) {
       if (e.message.toLowerCase().includes("failed to fetch")) e.message = "koneksi gagal, sepertinya Anda sedang offline !!!";
