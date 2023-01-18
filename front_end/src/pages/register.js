@@ -189,6 +189,24 @@ export default function Register() {
         text: text_introduction.current,
       }
     );
+    const input_photo = ref_input_photo.current;
+    const img_preview = ref_img_preview.current;
+    img_preview.src = "./assets/pp.png";
+    img_preview.onload = function () {
+      const canvas = document.createElement("canvas");
+      canvas.width = this.width;
+      canvas.height = this.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img_preview, 0, 0);
+      const data_url = canvas.toDataURL("image/png");
+      const my_file = new File([data_url], "pp.png", {
+        type: "image/png",
+        lastModified: new Date(),
+      });
+      const data_transfer = new DataTransfer();
+      data_transfer.items.add(my_file);
+      input_photo.files = data_transfer.files;
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -243,7 +261,7 @@ export default function Register() {
                   <form action="#" method="post" encType="multipart/form-data" ref={ref_form_register}>
                     <div className="input_photo mt-3 mb-3">
                       <label htmlFor="photo" className="label_photo">
-                        <img src="./assets/pp.png" alt="" id="preview" className="img_preview rounded-full" ref={ref_img_preview} />
+                        <img src="" alt="Profil" id="preview" className="img_preview rounded-full" ref={ref_img_preview} />
                         <div className="cam_logo">
                           <i className="bi bi-camera"></i>
                         </div>
