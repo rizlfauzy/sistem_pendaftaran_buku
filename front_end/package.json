@@ -61,7 +61,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "/rak-buku/",
+  "homepage": "/",
   "devDependencies": {
     "autoprefixer": "^10.4.13",
     "nodemon": "^2.0.20",
