@@ -803,10 +803,6 @@ video {
   height: 2.25rem;
 }
 
-.\!h-auto{
-  height: auto !important;
-}
-
 .max-h-\[40vh\]{
   max-height: 40vh;
 }
@@ -1505,6 +1501,27 @@ div.full_card {
   background: #d7dade;
   left: 100%;
   margin-left: 15px;
+}
+
+.text_pop {
+  top: 45%;
+  left: 10%;
+  -webkit-transform: translate(-115%, -50%);
+          transform: translate(-115%, -50%);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.6rem;
+  line-height: 1.5;
+  color: #00ccc9;
+  border-radius: 8px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+  padding: 0.75rem;
+}
+
+.dark .text_pop{
+  --tw-bg-opacity: 1;
+  background-color: rgb(71 85 105 / var(--tw-bg-opacity));
 }
 
 .input_group {
@@ -2277,6 +2294,10 @@ div.full_card {
 .focus\:outline-none:focus{
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.group:hover .group-hover\:block{
+  display: block;
 }
 
 .group:hover .group-hover\:text-slate-800{

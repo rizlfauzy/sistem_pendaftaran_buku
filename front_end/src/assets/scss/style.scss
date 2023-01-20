@@ -130,7 +130,7 @@ div.full_card {
     }
   }
   .card_body {
-    .card_text{
+    .card_text {
       @include formatText(700, $font_small, 1.5, $dark_text_color);
       text-align: center;
       @apply dark:bg-slate-800 bg-gray-200 rounded-lg p-2;
@@ -213,6 +213,15 @@ div.full_card {
       margin-left: 15px;
     }
   }
+}
+
+// text pop styles
+.text_pop {
+  top: 45%;
+  left: 10%;
+  transform: translate(-115%, -50%);
+  @include formatText(400, $font_very_very_small, 1.5, $primary_bg_color);
+  @apply dark:bg-slate-600 bg-gray-100 rounded-[8px] p-3;
 }
 
 // form styles

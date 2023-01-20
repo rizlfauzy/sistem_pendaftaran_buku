@@ -197,6 +197,18 @@ div.full_card {
   margin-left: 15px;
 }
 
+.text_pop {
+  top: 45%;
+  left: 10%;
+  transform: translate(-115%, -50%);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.6rem;
+  line-height: 1.5;
+  color: #00ccc9;
+  @apply dark:bg-slate-600 bg-gray-100 rounded-[8px] p-3;
+}
+
 .input_group {
   position: relative;
   display: flex;
