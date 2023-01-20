@@ -803,10 +803,6 @@ video {
   height: 2.25rem;
 }
 
-.\!h-auto{
-  height: auto !important;
-}
-
 .max-h-\[40vh\]{
   max-height: 40vh;
 }
