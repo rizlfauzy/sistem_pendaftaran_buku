@@ -121,35 +121,44 @@ export default function TableSearch({ search, set_alert,set_is_add,is_add, set_i
                           <td className="td_tbody">{item.author}</td>
                           <td className="td_tbody">{item.year}</td>
                           <td className="td_tbody">
-                            <button type="button" className="btn btn_primary w-full mb-3" data-book_id={item.id} data-is_completed={item.is_completed} onClick={on_click_is_read.bind(this)}>
-                              {item.is_completed === 0 ? <i className="bi bi-book-fill text-white"></i> : <i className="bi bi-book text-white"></i>}
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn_warning w-full mb-3"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                set_modal_edit({
-                                  show: true,
-                                  book_id: item.id,
-                                });
-                              }}
-                            >
-                              <i className="bi bi-pencil-fill text-white"></i>
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn_reset w-full"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                set_modal_delete({
-                                  show: true,
-                                  book_id: item.id,
-                                });
-                              }}
-                            >
-                              <i className="bi bi-trash-fill text-white"></i>
-                            </button>
+                            <div className="group relative">
+                              <button type="button" className="btn btn_primary w-full mb-3" data-book_id={item.id} data-is_completed={item.is_completed} onClick={on_click_is_read.bind(this)}>
+                                {item.is_completed === 0 ? <i className="bi bi-book-fill text-white"></i> : <i className="bi bi-book text-white"></i>}
+                              </button>
+                              <div className="group-hover:block hidden absolute text_pop">{item.is_completed === 0 ? "Tandai sudah dibaca" : "Tandai belum dibaca"}</div>
+                            </div>
+                            <div className="group relative">
+                              <button
+                                type="button"
+                                className="btn btn_warning w-full mb-3"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  set_modal_edit({
+                                    show: true,
+                                    book_id: item.id,
+                                  });
+                                }}
+                              >
+                                <i className="bi bi-pencil-fill text-white"></i>
+                              </button>
+                              <div className="group-hover:block hidden absolute text_pop">Ubah buku</div>
+                            </div>
+                            <div className="group relative">
+                              <button
+                                type="button"
+                                className="btn btn_reset w-full"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  set_modal_delete({
+                                    show: true,
+                                    book_id: item.id,
+                                  });
+                                }}
+                              >
+                                <i className="bi bi-trash-fill text-white"></i>
+                              </button>
+                              <div className="group-hover:block hidden absolute text_pop">Hapus Buku</div>
+                            </div>
                           </td>
                         </tr>
                       );

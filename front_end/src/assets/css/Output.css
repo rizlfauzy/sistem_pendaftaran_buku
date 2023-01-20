@@ -2279,6 +2279,10 @@ div.full_card {
   outline-offset: 2px;
 }
 
+.group:hover .group-hover\:block{
+  display: block;
+}
+
 .group:hover .group-hover\:text-slate-800{
   --tw-text-opacity: 1;
   color: rgb(30 41 59 / var(--tw-text-opacity));
