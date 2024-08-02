@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect,useLayoutEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react";
 import { Link, useLocation, Navigate } from "react-router-dom";
-import gsap from "gsap"
+import gsap from "gsap";
 
 import Alert from "./alert";
 
@@ -33,7 +33,7 @@ export default function Navbar({ data, isLoading }) {
     return theme === "dark" ? true : false;
   });
 
-  const on_click_link_to_top = useCallback(()=>window.scrollTo(0,0),[])
+  const on_click_link_to_top = useCallback(() => window.scrollTo(0, 0), []);
 
   const on_click_hamburger_btn = useCallback((e) => {
     const humberger_btn = ref_humbeger_btn.current;
@@ -75,7 +75,7 @@ export default function Navbar({ data, isLoading }) {
         y: 0,
       }
     );
-  },[]);
+  }, []);
 
   useLayoutEffect(() => {
     const humberger_btn = ref_humbeger_btn.current;
@@ -156,6 +156,9 @@ export default function Navbar({ data, isLoading }) {
                             className="dropdown-toggle flex items-center whitespace-nowrap"
                             type="button"
                             id="dropdownMenuButton1"
+                            onClick={() => {
+                              document.getElementById("dropdown-menu").classList.toggle("hidden");
+                            }}
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                           >
@@ -178,6 +181,7 @@ export default function Navbar({ data, isLoading }) {
                           <ul
                             className=" dropdown-menu min-w-max absolute hidden bg-white dark:bg-dark text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none "
                             aria-labelledby="dropdownMenuButton1"
+                            id="dropdown-menu"
                           >
                             <li>
                               <Link
@@ -192,10 +196,7 @@ export default function Navbar({ data, isLoading }) {
                               </Link>
                             </li>
                             <li>
-                              <button
-                                className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-                                ref={ref_logout_btn}
-                              >
+                              <button className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" ref={ref_logout_btn}>
                                 Keluar
                               </button>
                             </li>
